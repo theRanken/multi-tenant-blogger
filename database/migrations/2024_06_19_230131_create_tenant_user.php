@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('tenant_user', function (Blueprint $table) {
             $table->string('tenant_id');
-            $table->string('user_id');
             $table->foreign('tenant_id')->references('id')->on('tenants')->constrained();
-            $table->foreign('user_id')->references('id')->on('users')->constrained();
+            $table->foreignUuid('user_id')->references('id')->on('users')->constrained();
         });
     }
 

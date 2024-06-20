@@ -24,8 +24,13 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        $request->session()->regenerate();
+
+        $domain = '';
         
-        return redirect()->route("");
+        $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
+
+        return redirect()->intended($destination_domain)->withSuccess("Tenant Registeration Success!");
         
     }
 
@@ -61,7 +66,7 @@ class AuthController extends Controller
             Auth::login($user);
 
            //Generate The Destination Domain 
-            $destination_domain = get_protocol() . $validated['domain'] . config('tenant.central_domains')[1];
+            $destination_domain = current_protocol() . $validated['domain'] . config('tenant.central_domains')[1];
 
             return redirect($destination_domain)->withSuccess("Tenant Registeration Success!");
 
@@ -72,7 +77,8 @@ class AuthController extends Controller
     }
     
     public function logout(Request $request){
-        
+        Auth::logout();
+        return redirect()->route("central.home");
     }
     
 }

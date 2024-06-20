@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-enum Role
+enum Role : string
 {
-    case SUPERUSER = 'superuser';
     case USER = 'user';
     case ADMINISTRATOR = 'administrator';
+    case MODERATOR = 'moderator';
 
     /**
      * Return the values as an array

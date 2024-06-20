@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, CentralConnection;
+    use HasFactory, HasUuids, Notifiable, CentralConnection;
 
     /**
      * The attributes that are mass assignable.
