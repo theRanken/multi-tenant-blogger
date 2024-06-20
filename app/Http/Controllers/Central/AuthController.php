@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Central;
 
 use App\Models\User;
 use App\Models\Tenant;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,9 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
 
         $user = User::where("email", $request->email)->first();
+        if(!$user){
+            return redirect()->back()->withErrors("email","Your Email is invalid");
+        }
 
         if(!Hash::check($request->password, $user->password)){
             return redirect()->back()->withErrors("password","The Password You Entered Is Incorrect");
@@ -26,7 +30,9 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        $domain = '';
+        $tenant = Auth::user()->tenants()->first();
+
+        $domain = $tenant->domain;
         
         $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
 
@@ -38,40 +44,49 @@ class AuthController extends Controller
        //Get Validated Values 
         $validated = $request->validated();
 
-        // Mutate and Redact password
-        $validated["password"] = bcrypt($validated["password"]);
-
        //Create Tenant account 
-        try{
-
-            DB::beginTransaction();
+        try{ 
+            // Process Domain
+            $subdomain = Str::slug(strtolower($request->domain));
 
             // Create User
             $user = User::create([
-                ...$validated, 
+                'name' => $validated['name'], 
+                'email' => $validated['email'],
+                'password' => bcrypt($validated["password"]),
                 'role' => \App\Enums\Role::ADMINISTRATOR
             ]);
+
             $tenant = Tenant::create([
                 'id' => $user->id,
-                'name'=> $user->name,
-                'email'=> $user->email,
+                'data' => json_encode([
+                    'name' => $user->name,
+                    'email' => $user->email
+                ]) 
             ]);
-            $tenant->createDomain(['domain' => $validated['domain']]);
+
+            $tenant->domains()->create(['domain' => $subdomain]);
 
             $user->tenants()->attach($tenant->id);
 
-            DB::commit();
+            // Update The Tenant
+            $user->tenant_id = $tenant->id;
+            $user->save();
 
            // Login the user 
             Auth::login($user);
 
+            // Generate domain with or without port
+            $port = $_SERVER['SERVER_PORT'] ? ':' . $_SERVER['SERVER_PORT'] : ''; 
+            $domain = config('tenancy.central_domains')[1] . $port;
+            
            //Generate The Destination Domain 
-            $destination_domain = current_protocol() . $validated['domain'] . config('tenant.central_domains')[1];
+            $destination_domain = current_protocol() . "$subdomain." . $domain;
 
-            return redirect($destination_domain)->withSuccess("Tenant Registeration Success!");
+            // return redirect()->to($destination_domain)->withSuccess('Tenant Registration Successful');
+            return redirect(tenant_route($domain, 'tenant.home'));
 
         }catch(\Exception $e){
-            DB::rollBack();
             return back()->with("error", $e->getMessage());
         }
     }

@@ -11,12 +11,20 @@
 <body>
     <div class="login-container">
         <h1>Login to MicroBlog</h1>
+        <x-alerts />
         <form action="{{ route('central.login') }}" method="POST">
+            @csrf
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required @error('email') aria-invalid="true" aria-describedby="email-helper" @enderror>
+            @error('email')
+            <small id="email-helper">{{ $message }}</small>
+            @enderror
             
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required required @error('password') aria-invalid="true" aria-describedby="password-helper" @enderror>
+            @error('password')
+            <small id="password-helper">{{ $message }}</small>
+            @enderror
             
             <button type="submit" class="contrast">Login</button>
         </form>

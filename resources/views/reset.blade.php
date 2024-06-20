@@ -12,8 +12,12 @@
     <div class="login-container">
         <h1>Password Recovery</h1>
         <form action="{{ route('central.login') }}" method="POST">
+            @csrf
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required @error('email') aria-invalid="true" aria-describedby="email-helper" @enderror>
+            @error('email')
+            <small id="email-helper">{{ $message }}</small>
+            @enderror
             
             <button type="submit" class="contrast">Send</button>
         </form>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,7 +13,11 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 class User extends Authenticatable
 {
-    use HasFactory, HasUuids, Notifiable, CentralConnection;
+    use HasFactory, 
+        HasUuids,
+        Notifiable, 
+        CentralConnection, 
+        Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'active',
+        'role'
     ];
 
     /**
@@ -51,5 +58,21 @@ class User extends Authenticatable
     public function tenants() : BelongsToMany
     {
         return $this->belongsToMany(Tenant::class);
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable() : array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'firstUniqueSuffix'  => 2,
+                'includeTrashed' => true,
+            ]
+        ];
     }
 }

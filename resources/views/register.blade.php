@@ -11,7 +11,9 @@
 <body>
     <div class="login-container">
         <h1>MicroBlog Enrollment</h1>
+        <x-alerts />
         <form action="{{ route('central.register') }}" method="POST">
+            @csrf
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required @error('name') aria-invalid="true" aria-describedby="name-helper" @enderror>
             @error('name')

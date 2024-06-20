@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\MainController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
@@ -21,12 +22,14 @@ use Stancl\Tenancy\Middleware\ScopeSessions;
 */
 
 Route::middleware([
-    'web',
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
-    ScopeSessions::class
-])->group(function () {
-    Route::prefix('app')->group(function () {
-        
+    // ScopeSessions::class
+])->name('tenant.')->group(function () {
+
+    // Main Routes
+    Route::controller(MainController::class)->group(function () {
+        Route::get('/', 'index')->name('home');
     });
+    
 });
