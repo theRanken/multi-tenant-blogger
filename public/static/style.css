@@ -1,0 +1,35 @@
+body {
+    background-color: #111111;
+}
+
+header, footer {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+a.contrast {
+    background-color: #333;
+    color: #fff;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.text-white{
+    color : #f9f9f9;
+} 
+
+.hero{
+    padding-top: 2em;
+    min-height: 70vh;
+}

@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microblogging Platform</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="stylesheet" href="{{ asset('static/style.css') }}">
 </head>
 <body>
     <header class="container">
         <nav>
             <ul>
-                <li><strong>MicroBlog</strong></li>
+                <li><strong>MicroBlogger</strong></li>
             </ul>
             <ul>
                 <li><a href="#features">Features</a></li>
@@ -22,10 +23,10 @@
 
     <section class="container">
         <article>
-            <header>
-                <h1>Welcome to MicroBlog</h1>
+            <header class="hero">
+                <h1 class="text-white">Welcome to MicroBlog</h1>
                 <p>Your freeway to own your very own social media platform.</p>
-                <a href="/signup" class="contrast">Get Started</a>
+                <button onclick="window.location.href=`{{ route('central.login') }}`" class="contrast" style="margin-top:5em;">Get Started</button>
             </header>
         </article>
     </section>
@@ -33,7 +34,7 @@
     <section id="features" class="container">
         <article>
             <header>
-                <h2>Features</h2>
+                <h2 class="text-white">Features</h2>
             </header>
             <ul>
                 <li>Easy-to-use editor for creating posts</li>
@@ -48,7 +49,7 @@
     <section id="about" class="container">
         <article>
             <header>
-                <h2>About Us</h2>
+                <h2 class="text-white">About Us</h2>
             </header>
             <p>MicroBlog is a platform designed for microblogging enthusiasts. Whether you are a writer, a photographer, or just someone who loves to share, MicroBlog provides the tools you need for connecting audiences.</p>
         </article>
@@ -57,7 +58,7 @@
     <section id="contact" class="container">
         <article>
             <header>
-                <h2>Contact Us</h2>
+                <h2 class="text-white">Contact Us</h2>
             </header>
             <form>
                 <label for="name">Name:</label>
