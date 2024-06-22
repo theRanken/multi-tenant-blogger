@@ -13,7 +13,7 @@
         <h1>Check Your Inbox</h1>
         <div class="text-white">
             <p>We've Sent The Password Reset Instructions to {{ $email }}</p>
-            <a href="{{ route('central.home') }}">Go Back Home</a>
+            <a href="{{ route('home') }}">Go Back Home</a>
         </div>
     </div>
 </body>

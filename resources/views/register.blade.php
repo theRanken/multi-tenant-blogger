@@ -12,7 +12,7 @@
     <div class="login-container">
         <h1>MicroBlog Enrollment</h1>
         <x-alerts />
-        <form action="{{ route('central.register') }}" method="POST">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required @error('name') aria-invalid="true" aria-describedby="name-helper" @enderror>
@@ -44,10 +44,10 @@
             @error('password_confirmation')
             <small id="password_confirmation-helper">{{ $message }}</small>
             @enderror
-            <button type="submit" class="contrast">Login</button>
+            <button type="submit" class="contrast">Create Account</button>
         </form>
         <footer>
-            <p>Already a member? <a href="{{ route('central.login') }}">Sign In</a></p>
+            <p>Already a member? <a href="{{ route('login') }}">Sign In</a></p>
         </footer>
     </div>
 </body>

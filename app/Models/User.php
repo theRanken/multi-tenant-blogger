@@ -55,6 +55,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function tenant()
+    {
+        return $this->tenants()->firstWhere('id', $this->tenant_id);
+    }
+
     public function tenants() : BelongsToMany
     {
         return $this->belongsToMany(Tenant::class);

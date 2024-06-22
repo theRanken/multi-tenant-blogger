@@ -17,26 +17,28 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request){
 
-        $user = User::where("email", $request->email)->first();
+        $user = User::firstWhere("email", $request->email);
+        
         if(!$user){
-            return redirect()->back()->withErrors("email","Your Email is invalid");
+            return back()->withErrors(["email" => "Your Email is invalid"]);
         }
 
         if(!Hash::check($request->password, $user->password)){
-            return redirect()->back()->withErrors("password","The Password You Entered Is Incorrect");
+            return back()->withErrors(["password" => "The Password You Entered Is Incorrect"]);
         }
 
-        Auth::login($user);
+       // Login the user 
+       if(!Auth::loginUsingId($user->id)){
+            return back()->with('error', 'Failed Login!');
+        };
 
-        $request->session()->regenerate();
+        // $tenant = Auth::user()->tenants()->first();
 
-        $tenant = Auth::user()->tenants()->first();
-
-        $domain = $tenant->domain;
+        // $domain = $tenant->domain;
         
-        $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
+        // $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
 
-        return redirect()->intended($destination_domain)->withSuccess("Tenant Registeration Success!");
+        return redirect()->route('app.dashboard')->withSuccess("Tenant Login Success!");
         
     }
 
@@ -70,21 +72,26 @@ class AuthController extends Controller
             $user->tenants()->attach($tenant->id);
 
             // Update The Tenant
-            $user->tenant_id = $tenant->id;
-            $user->save();
+            $user->update(['tenant_id' => $tenant->id]);
 
            // Login the user 
-            Auth::login($user);
+            if(Auth::loginUsingId($user->id)){
+                return back()->with('error', 'Failed Login!');
+            };
 
-            // Generate domain with or without port
-            $port = $_SERVER['SERVER_PORT'] ? ':' . $_SERVER['SERVER_PORT'] : ''; 
-            $domain = config('tenancy.central_domains')[1] . $port;
+            $request->session()->regenerate();
+
+        //     // Generate domain with or without port
+        //     $port = $_SERVER['SERVER_PORT'] ? ':' . $_SERVER['SERVER_PORT'] : ''; 
+        //     $domain = config('tenancy.central_domains')[1] . $port;
             
-           //Generate The Destination Domain 
-            $destination_domain = current_protocol() . "$subdomain." . $domain;
+        //    //Generate The Destination Domain 
+        //     $destination_domain = current_protocol() . "$subdomain." . $domain;
 
-            // return redirect()->to($destination_domain)->withSuccess('Tenant Registration Successful');
-            return redirect(tenant_route($domain, 'tenant.home'));
+        //     // return redirect()->to($destination_domain)->withSuccess('Tenant Registration Successful');
+        //     return redirect(tenant_route($domain, 'tenant.home'));
+
+            return redirect()->route('app.dashboard')->withSuccess('Tenant Registeration Success');
 
         }catch(\Exception $e){
             return back()->with("error", $e->getMessage());

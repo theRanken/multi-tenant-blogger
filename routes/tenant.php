@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\CommentController;
 use App\Http\Controllers\Tenant\MainController;
+use App\Http\Controllers\Tenant\PostController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
@@ -30,6 +32,19 @@ Route::middleware([
     // Main Routes
     Route::controller(MainController::class)->group(function () {
         Route::get('/', 'index')->name('home');
+
+        // protected tenant administrator routes
+        Route::middleware([])->group(function () {
+
+        });
     });
+
+    // Post Routes
+    Route::resource('posts', PostController::class);
+
+    // Comment Routes
+    Route::apiResource('posts.comments', CommentController::class);
+
+    
     
 });

@@ -11,7 +11,7 @@
 <body>
     <div class="login-container">
         <h1>Password Recovery</h1>
-        <form action="{{ route('central.login') }}" method="POST">
+        <form action="{{ route('reset') }}" method="POST">
             @csrf
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required @error('email') aria-invalid="true" aria-describedby="email-helper" @enderror>
@@ -22,7 +22,7 @@
             <button type="submit" class="contrast">Send</button>
         </form>
         <footer>
-            <p>Don't have an account? <a href="{{ route('central.register') }}">Sign Up</a></p>
+            <p>Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
         </footer>
     </div>
 </body>
