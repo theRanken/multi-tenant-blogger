@@ -26,7 +26,7 @@
             <header class="hero">
                 <h1 class="text-white">Welcome to MicroBlog</h1>
                 <p>Your freeway to own your very own social media platform.</p>
-                <button onclick="window.location.href=`{{ route('central.login') }}`" class="contrast" style="margin-top:5em;">Get Started</button>
+                <button onclick="window.location.href=`{{ route('login') }}`" class="contrast" style="margin-top:5em;">Get Started</button>
             </header>
         </article>
     </section>

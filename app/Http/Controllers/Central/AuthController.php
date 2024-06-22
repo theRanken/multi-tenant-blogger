@@ -27,8 +27,9 @@ class AuthController extends Controller
             return back()->withErrors(["password" => "The Password You Entered Is Incorrect"]);
         }
 
-       // Login the user 
-       if(!Auth::loginUsingId($user->id)){
+
+        // Login the user 
+        if(!auth()->loginUsingId($user->id, true)){
             return back()->with('error', 'Failed Login!');
         };
 
@@ -100,7 +101,7 @@ class AuthController extends Controller
     
     public function logout(Request $request){
         Auth::logout();
-        return redirect()->route("central.home");
+        return redirect()->route("home");
     }
     
 }

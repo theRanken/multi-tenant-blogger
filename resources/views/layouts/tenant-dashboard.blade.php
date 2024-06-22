@@ -18,7 +18,7 @@
     <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
     <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
     <!-- Custom CSS -->
-    <link href="{{ asset('static/css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('static/css/style.min.css') }}">
 </head>
 
 <body>
@@ -49,13 +49,13 @@
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!-- Dark Logo icon -->
-                            <img src="plugins/images/logo-icon.png" alt="homepage" />
+                            <img src="{{ asset('static/plugins/images/logo-icon.png') }}" alt="homepage" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="plugins/images/logo-text.png" alt="homepage" />
+                            <img src="{{ asset('static/plugins/images/logo-text.png') }}" alt="homepage" />
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -93,8 +93,8 @@
                         <!-- ============================================================== -->
                         <li>
                             <a class="profile-pic" href="#">
-                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
-                                    class="img-circle"><span class="text-white font-medium">Steave</span></a>
+                                <img src="{{ asset('static/plugins/images/users/varun.jpg') }}" alt="user-img" width="36"
+                                    class="img-circle"><span class="text-white font-medium">{{ auth()->user()?->name }}</span></a>
                         </li>
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
@@ -166,9 +166,9 @@
                             </a>
                         </li>
                         <li class="text-center p-20 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/ampleadmin/"
-                                class="btn d-grid btn-danger text-white" target="_blank">
-                                Upgrade to Pro</a>
+                            <a href="{{ route('logout') }}" class="btn d-grid btn-danger text-white">
+                                Sign Out
+                            </a>
                         </li>
                     </ul>
 

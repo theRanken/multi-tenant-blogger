@@ -1,4 +1,4 @@
-<x-tenant-dashboard>
+<x-tenant-layout>
     <!-- ============================================================== -->
     <!-- Bread crumb and right sidebar toggle -->
     <!-- ============================================================== -->
@@ -12,9 +12,9 @@
                     <ol class="breadcrumb ms-auto">
                         <li><a href="#" class="fw-normal">Dashboard</a></li>
                     </ol>
-                    <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                    <!-- <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
                         class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
-                        to Pro</a>
+                        to Pro</a> -->
                 </div>
             </div>
         </div>
@@ -334,4 +334,4 @@
             <!-- /.col -->
         </div>
     </div>
-</x-tenant-dashboard>
+</x-tenant-layout>
