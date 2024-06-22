@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
 
         $user = User::firstWhere("email", $request->email);
-        
+
         if(!$user){
             return back()->withErrors(["email" => "Your Email is invalid"]);
         }
@@ -28,33 +28,33 @@ class AuthController extends Controller
         }
 
 
-        // Login the user 
-        if(!auth()->loginUsingId($user->id, true)){
+        // Login the user
+        if(!Auth::loginUsingId($user->id, true)){
             return back()->with('error', 'Failed Login!');
         };
 
         // $tenant = Auth::user()->tenants()->first();
 
         // $domain = $tenant->domain;
-        
+
         // $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
 
         return redirect()->route('app.dashboard')->withSuccess("Tenant Login Success!");
-        
+
     }
 
     public function register(RegisterRequest $request){
-       //Get Validated Values 
+       //Get Validated Values
         $validated = $request->validated();
 
-       //Create Tenant account 
-        try{ 
+       //Create Tenant account
+        try{
             // Process Domain
             $subdomain = Str::slug(strtolower($request->domain));
 
             // Create User
             $user = User::create([
-                'name' => $validated['name'], 
+                'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => bcrypt($validated["password"]),
                 'role' => \App\Enums\Role::ADMINISTRATOR
@@ -65,7 +65,7 @@ class AuthController extends Controller
                 'data' => json_encode([
                     'name' => $user->name,
                     'email' => $user->email
-                ]) 
+                ])
             ]);
 
             $tenant->domains()->create(['domain' => $subdomain]);
@@ -75,33 +75,21 @@ class AuthController extends Controller
             // Update The Tenant
             $user->update(['tenant_id' => $tenant->id]);
 
-           // Login the user 
-            if(Auth::loginUsingId($user->id)){
+           // Login the user
+            if(!Auth::loginUsingId($user->id, true)){
                 return back()->with('error', 'Failed Login!');
             };
 
-            $request->session()->regenerate();
-
-        //     // Generate domain with or without port
-        //     $port = $_SERVER['SERVER_PORT'] ? ':' . $_SERVER['SERVER_PORT'] : ''; 
-        //     $domain = config('tenancy.central_domains')[1] . $port;
-            
-        //    //Generate The Destination Domain 
-        //     $destination_domain = current_protocol() . "$subdomain." . $domain;
-
-        //     // return redirect()->to($destination_domain)->withSuccess('Tenant Registration Successful');
-        //     return redirect(tenant_route($domain, 'tenant.home'));
-
-            return redirect()->route('app.dashboard')->withSuccess('Tenant Registeration Success');
+            return redirect()->route('app.dashboard')->withSuccess('Tenant Registration Success');
 
         }catch(\Exception $e){
             return back()->with("error", $e->getMessage());
         }
     }
-    
+
     public function logout(Request $request){
         Auth::logout();
         return redirect()->route("home");
     }
-    
+
 }

@@ -8,13 +8,10 @@
                 <h4 class="page-title">Dashboard</h4>
             </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                <div class="d-md-flex">
-                    <ol class="breadcrumb ms-auto">
-                        <li><a href="#" class="fw-normal">Dashboard</a></li>
-                    </ol>
-                    <!-- <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
-                        class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
-                        to Pro</a> -->
+                <div class="d-md-flex justify-content-end">
+                    <a href="{{ get_tenant_domain_url() }}" class="btn btn-outline-secondary">
+                        Go To Site
+                    </a>
                 </div>
             </div>
         </div>
@@ -26,18 +23,18 @@
     <!-- ============================================================== -->
     <!-- Container fluid  -->
     <!-- ============================================================== -->
-    <div class="container-fluid">
+    <div class="container-fluid pt-3">
         <!-- ============================================================== -->
         <!-- Three charts -->
         <!-- ============================================================== -->
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-12">
                 <div class="white-box analytics-info">
-                    <h3 class="box-title">Total Visit</h3>
+                    <h3 class="box-title">Total Users</h3>
                     <ul class="list-inline two-part d-flex align-items-center mb-0">
                         <li>
-                            <div id="sparklinedash"><canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                            <div id="sparklinedash">
+                                <canvas width="67" height="30" style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
                         <li class="ms-auto"><span class="counter text-success">659</span></li>
@@ -49,8 +46,8 @@
                     <h3 class="box-title">Total Page Views</h3>
                     <ul class="list-inline two-part d-flex align-items-center mb-0">
                         <li>
-                            <div id="sparklinedash2"><canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                            <div id="sparklinedash2">
+                                <canvas width="67" height="30" tyle="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
                         <li class="ms-auto"><span class="counter text-purple">869</span></li>
@@ -59,11 +56,11 @@
             </div>
             <div class="col-lg-4 col-md-12">
                 <div class="white-box analytics-info">
-                    <h3 class="box-title">Unique Visitor</h3>
+                    <h3 class="box-title">Unique Visitors</h3>
                     <ul class="list-inline two-part d-flex align-items-center mb-0">
                         <li>
-                            <div id="sparklinedash3"><canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                            <div id="sparklinedash3">
+                                <canvas width="67" height="30" style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
                         <li class="ms-auto"><span class="counter text-info">911</span>

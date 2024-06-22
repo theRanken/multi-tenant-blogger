@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Tenant\CommentController;
+use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Middleware\ScopeSessions;
 use App\Http\Controllers\Tenant\MainController;
 use App\Http\Controllers\Tenant\PostController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Tenant\CommentController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
-use Stancl\Tenancy\Middleware\ScopeSessions;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +24,10 @@ use Stancl\Tenancy\Middleware\ScopeSessions;
 */
 
 Route::middleware([
+    'web',
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
-    // ScopeSessions::class
+    ScopeSessions::class
 ])->name('tenant.')->group(function () {
 
     // Main Routes
@@ -45,6 +46,6 @@ Route::middleware([
     // Comment Routes
     Route::apiResource('posts.comments', CommentController::class);
 
-    
-    
+
+
 });

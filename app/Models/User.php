@@ -13,10 +13,10 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 class User extends Authenticatable
 {
-    use HasFactory, 
+    use HasFactory,
         HasUuids,
-        Notifiable, 
-        CentralConnection, 
+        Notifiable,
+        CentralConnection,
         Sluggable;
 
     /**
