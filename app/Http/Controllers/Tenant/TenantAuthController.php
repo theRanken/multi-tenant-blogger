@@ -1,19 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Central;
+namespace App\Http\Controllers\Tenant;
 
 use App\Models\User;
-use App\Models\Tenant;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Central\LoginRequest;
 use App\Http\Requests\Central\RegisterRequest;
 
-class AuthController extends Controller
+class TenantAuthController extends Controller
 {
     public function login(LoginRequest $request){
 
@@ -27,7 +24,6 @@ class AuthController extends Controller
             return back()->withErrors(["password" => "The Password You Entered Is Incorrect"]);
         }
 
-
         // Login the user
         if(!Auth::loginUsingId($user->id, true)){
             return back()->with('error', 'Failed Login!');
@@ -39,7 +35,7 @@ class AuthController extends Controller
 
         // $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
 
-        return redirect()->route('app.dashboard')->withSuccess("Tenant Login Success!");
+        return redirect()->route('tenant.home')->withSuccess("Tenant Login Success!");
 
     }
 
@@ -49,37 +45,19 @@ class AuthController extends Controller
 
        //Create Tenant account
         try{
-            // Process Domain
-            $subdomain = Str::slug(strtolower($request->domain));
-
             // Create User
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'password' => bcrypt($validated["password"]),
-                'role' => \App\Enums\Role::ADMINISTRATOR
+                'password' => bcrypt($validated["password"])
             ]);
-
-            $tenant = Tenant::create([
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'sitename' => $request->sitename
-            ]);
-
-            $tenant->domains()->create(['domain' => $subdomain]);
-
-            $user->tenants()->attach($tenant->id);
-
-            // Update The Tenant
-            $user->update(['tenant_id' => $tenant->id]);
 
            // Login the user
             if(!Auth::loginUsingId($user->id, true)){
                 return back()->with('error', 'Failed Login!');
             };
 
-            return redirect()->route('app.dashboard')->withSuccess('Tenant Registration Success');
+            return redirect()->route('tenant.home')->withSuccess('Tenant Registration Success');
 
         }catch(\Exception $e){
             return back()->with("error", $e->getMessage());
@@ -88,7 +66,6 @@ class AuthController extends Controller
 
     public function logout(Request $request){
         Auth::logout();
-        return redirect()->route("home");
+        return redirect()->route("tenant.home");
     }
-
 }

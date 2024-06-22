@@ -24,6 +24,11 @@
             @error('email')
             <small id="email-helper">{{ $message }}</small>
             @enderror
+            <label for="sitename">Choose your site name:</label>
+            <input type="sitename" id="sitename" name="sitename" placeholder="Awesome Website" @error('sitename') aria-invalid="true" aria-describedby="sitename-helper" @enderror>
+            @error('sitename')
+            <small id="sitename-helper">{{ $message }}</small>
+            @enderror
             <label for="domain">Pick A Domain Name:</label>
             <div class="grid" style="align-items:center;">
                 <span>

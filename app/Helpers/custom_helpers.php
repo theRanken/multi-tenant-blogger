@@ -17,6 +17,14 @@ if(!function_exists('current_protocol')){
     }
 }
 
+if(!function_exists('get_tenant_sitename')){
+    function get_tenant_sitename(){
+        $subdomain = Request::get('subdomain');
+        $alias = ucwords(null ?? $subdomain);
+        return $alias;
+    }
+}
+
 if(!function_exists('get_tenant_domain_url')){
     function get_tenant_domain_url(){
         $tenant = \App\Models\Tenant::find(auth()->id());

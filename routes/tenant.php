@@ -35,7 +35,7 @@ Route::middleware([
         Route::get('/', 'index')->name('home');
 
         // protected tenant administrator routes
-        Route::middleware([])->group(function () {
+        Route::middleware(['auth'])->group(function () {
 
         });
     });
