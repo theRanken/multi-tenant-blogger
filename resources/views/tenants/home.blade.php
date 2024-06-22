@@ -49,7 +49,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
         <div class="container">
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">{{ get_tenant_sitename() ?? 'Home' }}</a>
             <div class="ml-auto d-flex align-items-center">
                 <img src="https://via.placeholder.com/36" alt="Current User" class="navbar-profile-img">
                 <button class="btn btn-primary ml-3">Tweet</button>

@@ -27,7 +27,8 @@ Route::middleware([
     'web',
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
-    ScopeSessions::class
+    ScopeSessions::class,
+    \App\Http\Middleware\ExtractSubdomain::class,
 ])->name('tenant.')->group(function () {
 
     // Main Routes

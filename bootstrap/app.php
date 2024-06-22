@@ -14,16 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/web.php'));
             }
 
-            Route::middleware('web')->group(base_path('routes/tenant.php'));
+            Route::middleware(['web'])->group(base_path('routes/tenant.php'));
         },
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->api(append : [
-            \App\Http\Middleware\ExtractSubdomain::class,
-        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
