@@ -59,44 +59,35 @@
 
     <div class="container mt-4">
         <div class="fixed-width">
+            @forelse($posts as $post)
             <div class="tweet-card">
                 <div class="d-flex align-items-start p-3">
-                    <img src="https://via.placeholder.com/48" alt="John Doe">
+                    <img src="{{ route('tenant.post.show', ['post' => $post->slug]) }}" alt="John Doe">
                     <div class="ml-3">
-                        <h5 class="m-0">John Doe</h5>
-                        <small class="text-muted">@johndoe · 1m</small>
+                        <h5 class="m-0">{{ $post->user->name }}</h5>
+                        <small class="text-muted">{{ $post->user->email }} · {{ $post->created_at->diffForHumans() }}</small>
                     </div>
                 </div>
                 <div class="tweet-content">
-                    <p>Just finished a great book. The War on Normal People by Andrew Yang. I highly recommend it to anyone interested in the future of work and society.</p>
-                    <img src="https://via.placeholder.com/600x300" class="img-fluid rounded" alt="Book Image">
+                    <p>{{ $post->body }}</p>
                 </div>
                 <div class="tweet-footer text-muted">
-                    <span class="footer-icon">💬 2</span>
-                    <span class="footer-icon">🔁 3</span>
-                    <span class="footer-icon">❤️ 4</span>
-                    <span class="footer-icon">📤</span>
+                    <span class="footer-icon">
+                        <a href="{{ route('tenant.posts.like') }}" class="n">💬 {{ $post->comments()->get()->count() }}</a>
+                    </span>
+                    <span class="footer-icon">
+                        <a href="{{ route('tenant.posts.comments') }}" class="n">❤️ {{ $post->likes()->get()->count() }}</a>
+                    </span>
                 </div>
             </div>
+            @empty
             <div class="tweet-card">
-                <div class="d-flex align-items-start p-3">
-                    <img src="https://via.placeholder.com/48" alt="Jane Smith">
-                    <div class="ml-3">
-                        <h5 class="m-0">Jane Smith</h5>
-                        <small class="text-muted">@janesmith · 5m</small>
-                    </div>
-                </div>
-                <div class="tweet-content">
-                    <p>I'm not a cat person but this is hilarious. My friend's cat got into a fight with a squirrel, and the squirrel won.</p>
-                    <img src="https://via.placeholder.com/600x300" class="img-fluid rounded" alt="Squirrel Image">
-                </div>
-                <div class="tweet-footer text-muted">
-                    <span class="footer-icon">💬 12</span>
-                    <span class="footer-icon">🔁 3</span>
-                    <span class="footer-icon">❤️ 3</span>
-                    <span class="footer-icon">📤 15</span>
+                <div class="container text-center py-5 px-2">
+                    <h3>Posts Cannot Be Retrieved At The Moment</h3>
+                    <small>Please Try Again Later</small>
                 </div>
             </div>
+            @endforelse
         </div>
     </div>
 

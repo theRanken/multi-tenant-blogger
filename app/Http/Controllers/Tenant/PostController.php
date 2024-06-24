@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Http\Controllers\Controller;
+use App\Models\Like;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -12,7 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::with('comments')->paginate(10);
+        return view('tenants.home', compact('posts'));
     }
 
     /**
@@ -34,7 +37,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $id)
     {
         //
     }
@@ -42,7 +45,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
         //
     }
@@ -50,7 +53,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -58,8 +61,27 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
         //
+    }
+
+    // Additional Features
+
+    public function like_post(Request $request, Post $post){
+        $user = $request->user();
+        $existing_like = Like::where('user_id', $user->id)
+                             ->where('post_id', $post->id)
+                             ->first();
+
+        if ($existing_like) {
+            $existing_like->delete();
+            $liked = false;
+        } else {
+            Like::create(['user_id' => $user->id,'post_id' => $post->id]);
+            $liked = true;
+        }
+
+        return back()->withSuccess("");
     }
 }

@@ -25,6 +25,16 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedBy()
+    {
+        return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *

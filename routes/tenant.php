@@ -41,20 +41,23 @@ Route::middleware([
     Route::name('tenant.')->group(function () {
 
         // Main Routes
-        Route::controller(MainController::class)->group(function () {
-            Route::get('/', 'index')->name('home');
+        Route::middleware(['auth'])->controller(PostController::class)->group(function () {
 
-            // protected tenant administrator routes
-            Route::middleware(['auth'])->group(function () {
+            // Post Routes
+            Route::get('/','index')->name('home')->withoutMiddleware('auth');
+            Route::post('/','store')->name('posts.create');
+            Route::get('/{post:slug}','show')->name('posts.show')->withoutMiddleware('auth');
+            Route::put('/{post:slug}','update')->name('posts.edit');
+            Route::delete('/{post:slug}')->name('posts.delete');
+            Route::get('/{post:slug}/like', 'like_post')->name('posts.like');
 
-            });
+            // Comment Routes
+            Route::get('/{post:slug}/comments/','comments')->name('posts.comments');
+            Route::get('/{post:slug}/comments/{comment:slug}','show_comment')->name('posts.comments.show');
+            Route::post('/{post:slug}/comments/','create_comment')->name('posts.comments.create');
+            Route::delete('/{post:slug}/comments/','delete_comment')->name('posts.comments.delete');
+            
         });
-
-        // Post Routes
-        Route::resource('posts', PostController::class);
-
-        // Comment Routes
-        Route::apiResource('posts.comments', CommentController::class);
 
     });
 
