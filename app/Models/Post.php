@@ -13,7 +13,7 @@ class Post extends Model
 {
     use HasFactory, HasUuids, Sluggable;
 
-    protected $fillable = ['user_id', 'title', 'image', 'body'];
+    protected $fillable = ['user_id', 'body'];
 
     public function user() : BelongsTo
     {
@@ -44,7 +44,7 @@ class Post extends Model
     {
         return [
             'slug' => [
-                'source' => 'title',
+                'source' => ['user.name', 'id'],
                 'firstUniqueSuffix'  => 2,
                 'includeTrashed' => true,
             ]

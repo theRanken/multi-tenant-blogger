@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Views extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['ip', 'agent', 'visit_count'] ;
 }

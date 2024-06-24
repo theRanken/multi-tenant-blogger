@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Central\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Central\AuthController;
 
-Route::view('/home', 'index')->name('home');
+Route::view('/', 'index')->name('home');
 Route::view('/login', 'login')->name('login');
 Route::view('/register', 'register')->name('register');
 Route::view('/reset', 'reset')->name('register');
@@ -18,7 +19,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware(['auth'])
 ->prefix('app')
 ->group(function () {
-    Route::view('/dashboard', 'dashboard.index')->name('app.dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('app.dashboard');
     // Route::view('','')->name('');
 });
 

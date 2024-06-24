@@ -14,16 +14,11 @@ class PostController extends Controller
      */
     public function index()
     {
+        // turn on analytics 
+        record_hit();
+
         $posts = Post::with('comments')->paginate(10);
         return view('tenants.home', compact('posts'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -31,15 +26,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = validator($request->all(), [
+            "body" => "required|string|max:3000",
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        try{
+            Post::create($request->all());
+            back()->with("success","Tweet Successful!");
+        }catch(\Exception $e){
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $id)
+    public function show(Post $post)
     {
-        //
+        return view('tenants.post-detail', compact('post'));
     }
 
     /**

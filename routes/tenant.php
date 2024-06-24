@@ -30,13 +30,14 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
     ScopeSessions::class,
     \App\Http\Middleware\ExtractSubdomain::class,
-])->group(function () {
+])->group(function () { 
 
+    // Auth routes
     Route::controller(TenantAuthController::class)->group(function () {
         Route::post('/login', 'login')->name('login');
         Route::post('/register', 'register')->name('register');
         Route::get('/logout','logout')->name('logout')->middleware('auth');
-    }); 
+    });
 
     Route::name('tenant.')->group(function () {
 
@@ -52,8 +53,8 @@ Route::middleware([
             Route::get('/{post:slug}/like', 'like_post')->name('posts.like');
 
             // Comment Routes
-            Route::get('/{post:slug}/comments/','comments')->name('posts.comments');
-            Route::get('/{post:slug}/comments/{comment:slug}','show_comment')->name('posts.comments.show');
+            Route::get('/{post:slug}/comments/','comments')->name('posts.comments')->withoutMiddleware('auth');
+            Route::get('/{post:slug}/comments/{comment:slug}','show_comment')->name('posts.comments.show')->withoutMiddleware('auth');
             Route::post('/{post:slug}/comments/','create_comment')->name('posts.comments.create');
             Route::delete('/{post:slug}/comments/','delete_comment')->name('posts.comments.delete');
             

@@ -66,7 +66,7 @@
             <header>
                 <h2 class="text-white">Contact Us</h2>
             </header>
-            <form>
+            <form class="central-form">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
 

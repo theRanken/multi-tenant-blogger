@@ -9,7 +9,7 @@
             </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <div class="d-md-flex justify-content-end">
-                    <a href="{{ get_tenant_domain_url() }}" class="btn btn-outline-secondary">
+                    <a href="{{ get_tenant_domain_url() }}" target="_blank" class="btn btn-outline-secondary">
                         Go To Site
                     </a>
                 </div>
@@ -37,7 +37,7 @@
                                 <canvas width="67" height="30" style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
-                        <li class="ms-auto"><span class="counter text-success">659</span></li>
+                        <li class="ms-auto"><span class="counter text-success">{{ $user_count }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                                 <canvas width="67" height="30" tyle="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
-                        <li class="ms-auto"><span class="counter text-purple">869</span></li>
+                        <li class="ms-auto"><span class="counter text-purple">{{ $visit_count }}</span></li>
                     </ul>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                                 <canvas width="67" height="30" style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                             </div>
                         </li>
-                        <li class="ms-auto"><span class="counter text-info">911</span>
+                        <li class="ms-auto"><span class="counter text-info">{{ $view_count }}</span>
                         </li>
                     </ul>
                 </div>

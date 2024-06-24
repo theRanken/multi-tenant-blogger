@@ -42,3 +42,24 @@ if(!function_exists('get_tenant_domain_url')){
         return $destination_domain;
     }
 }
+
+if(!function_exists("record_hit")){
+    function record_hit(){
+        // Find the existing view by IP and user agent
+        $hit = \App\Models\Views::where('ip', request()->ip())
+            ->where('agent', request()->userAgent())
+            ->first();
+        
+        if($hit) {
+            $hit->increment('visit_count');
+        } else {
+            $hit = \App\Models\Views::create([
+                'ip' => request()->ip(),
+                'agent' => request()->userAgent(),
+                'visit_count' => 1
+            ]);
+        }
+
+        return $hit;
+    }
+}

@@ -167,7 +167,7 @@
                             </a>
                         </li>
                         <li class="text-center p-20 upgrade-btn">
-                            <a href="{{ get_tenant_domain_url() }}" class="btn d-grid btn-outline-success">
+                            <a href="{{ get_tenant_domain_url() }}" target="_blank" class="btn d-grid btn-outline-success">
                                 Go To Your Site Home
                             </a>
                         </li>

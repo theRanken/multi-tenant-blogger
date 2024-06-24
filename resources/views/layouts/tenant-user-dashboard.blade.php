@@ -1,232 +1,273 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-        content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Microblogger - Dashboard</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
-    <!-- Custom CSS -->
-    <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
-    <!-- Custom CSS -->
-    <link href="{{ asset('static/css/style.min.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ get_tenant_sitename() }} - Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar-custom {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .tweet-card {
+            background-color: #fff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .tweet-card img {
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+        }
+
+        .tweet-content {
+            padding: 1rem;
+        }
+
+        .tweet-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem 1rem 1rem;
+        }
+
+        .footer-icon {
+            font-size: 1.2rem;
+        }
+
+        .fixed-width {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .navbar-profile-img {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar" data-navbarbg="skin5">
-            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-                <div class="navbar-header" data-logobg="skin6">
-                    <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
-                    <a class="navbar-brand" href="dashboard.html">
-                        <!-- Logo icon -->
-                        <b class="logo-icon">
-                            <!-- Dark Logo icon -->
-                            <img src="plugins/images/logo-icon.png" alt="homepage" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        <span class="logo-text">
-                            <!-- dark Logo text -->
-                            <img src="plugins/images/logo-text.png" alt="homepage" />
-                        </span>
-                    </a>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
-                        href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('tenant.home') }}">{{ get_tenant_sitename() ?? 'Home' }}</a>
+            <div class="ml-auto d-flex align-items-center">
+                @auth
+                <div class="dropdown">
+                    <img src="https://via.placeholder.com/36" alt="Current User" class="navbar-profile-img dropdown-toggle"  id="profile-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown-menu" aria-labelledby="profile-dropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+                    </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-                   
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav ms-auto d-flex align-items-center">
-
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                        <li>
-                            <a class="profile-pic" href="#">
-                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
-                                    class="img-circle"><span class="text-white font-medium">Steave</span></a>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin6">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <!-- User Profile-->
-                        <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
-                                aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
-                                aria-expanded="false">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                                <span class="hide-menu">Profile</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
-                                aria-expanded="false">
-                                <i class="fa fa-table" aria-hidden="true"></i>
-                                <span class="hide-menu">Basic Table</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="fontawesome.html"
-                                aria-expanded="false">
-                                <i class="fa fa-font" aria-hidden="true"></i>
-                                <span class="hide-menu">Icon</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"
-                                aria-expanded="false">
-                                <i class="fa fa-globe" aria-hidden="true"></i>
-                                <span class="hide-menu">Google Map</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="blank.html"
-                                aria-expanded="false">
-                                <i class="fa fa-columns" aria-hidden="true"></i>
-                                <span class="hide-menu">Blank Page</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="404.html"
-                                aria-expanded="false">
-                                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                <span class="hide-menu">Error 404</span>
-                            </a>
-                        </li>
-                        <li class="text-center p-20 upgrade-btn">
-                            <a href="https://www.wrappixel.com/templates/ampleadmin/"
-                                class="btn d-grid btn-danger text-white" target="_blank">
-                                Upgrade to Pro</a>
-                        </li>
-                    </ul>
-
-                </nav>
-                <!-- End Sidebar navigation -->
+                <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#tweet-modal">Tweet</button>
+                <div class="modal fade" id="tweet-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                        What's On Your Mind?
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <form id="tweet-form" action="{{ route('tenant.posts.create') }}" method="POST" class="w-100">
+                                            @csrf
+                                            <div class="form-group">
+                                                <textarea type="text" class="form-control" id="tweet-body" name="body"
+                                                    aria-describedby="tweet-helper" rows="10" placeholder="Let People Know..."></textarea>
+                                                @error('body')
+                                                    <small id="tweet-helper" class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="tweet-form" class="btn btn-primary">Post</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endauth
+                @guest
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
+                    <!-- Login Modal -->
+                    <div class="modal fade" id="login-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Login to {{ get_tenant_sitename() }}
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <form id="login-form" action="{{ route('login') }}" method="POST" class="w-100">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="login-email">Email</label>
+                                                <input type="email" class="form-control" id="login-email" name="email"
+                                                    aria-describedby="login-help">
+                                                @error('email')
+                                                    <small id="login-email" class="form-text text-muted">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="login-password">Password</label>
+                                                <input type="password" class="form-control" id="login-password" name="password">
+                                                @error('password')
+                                                    <small id="login-password"
+                                                        class="form-text text-muted">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="container-fluid">
+                                                <div class="mb-3 text-center">OR</div>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal" data-toggle="modal" data-target="#register-modal">Register</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="login-form" class="btn btn-primary">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Register Modal -->
+                    <div class="modal fade" id="register-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">
+                                    {{ get_tenant_sitename() }} Signup
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <form id="register-form" action="{{ route('register') }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="login-email">Name</label>
+                                                <input type="text" class="form-control" id="registration-name" name="name"
+                                                    aria-describedby="registration-help">
+                                                @error('email')
+                                                    <small id="registration-email" class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="registration-email">Email</label>
+                                                <input type="email" class="form-control" id="registration-email" name="email"
+                                                    aria-describedby="registration-help">
+                                                @error('email')
+                                                    <small id="registration-email" class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="registration-password">Password</label>
+                                                <input type="password" class="form-control" id="registration-password" name="password">
+                                                @error('password')
+                                                    <small id="registration-password"
+                                                        class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="registration-password-confirm">Confirm Password</label>
+                                                <input type="password" class="form-control" id="registration-password-confirm" name="password_confirmation">
+                                                @error('password')
+                                                    <small id="registration-password"
+                                                        class="form-text text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" form="register-form" class="btn btn-primary">Register</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    $(document).ready(function() {
+                        @if($errors->registration_failed === true)
+                            $('#register-modal').modal('show');
+                        @elseif($errors->login_failed === true)
+                            $('#login-modal').modal('show');
+                        @elseif($errors->post_creation_failed === true)
+                            $('#tweet-modal').modal('show');
+                        @endif
+                    });
+                    </script>
+                @endguest
             </div>
-            <!-- End Sidebar scroll-->
-        </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <div class="page-wrapper">
-            <main>
-                {{$slot}}
-            </main>
-
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
-                    href="https://www.wrappixel.com/">wrappixel.com</a>
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="{{ asset('static/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="{{asset('static/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{asset('static/js/app-style-switcher.js')}}"></script>
-    <script src="{{asset('static/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
-    <!--Wave Effects -->
-    <script src="{{asset('static/js/waves.js')}}"></script>
-    <!--Menu sidebar -->
-    <script src="{{asset('static/js/sidebarmenu.js')}}"></script>
-    <!--Custom JavaScript -->
-    <script src="{{asset('static/js/custom.js')}}"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
-    <script src="{{asset('static/plugins/bower_components/chartist/dist/chartist.min.js')}}"></script>
-    <script src="{{asset('static/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
-    <script src="{{asset('static/js/pages/dashboards/dashboard1.js')}}"></script>
+    </nav>
+
+    <main>
+        <div class="container-fluid mb-2">
+            @if($errors->any())
+                @foreach($errors as $error)
+                    <div class="alert alert-danger alert-dismissible">
+                        <span>{{ $error }}</span>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endforeach
+            @elseif(session('error'))
+                <div class="alert alert-danger alert-dismissible">
+                    <span>{{ session('error') }}</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible">
+                    <span>{{ session('success') }}</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            @if(session('warning'))
+                <div class="alert alert-warning alert-dismissible">
+                    <span>{{ session('warning') }}</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+        </div>
+        {{ $slot }}
+    </main>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

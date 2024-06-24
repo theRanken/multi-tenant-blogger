@@ -12,54 +12,76 @@ use App\Http\Requests\Central\RegisterRequest;
 
 class TenantAuthController extends Controller
 {
-    public function login(LoginRequest $request){
+    public function login(Request $request){
 
-        $user = User::firstWhere("email", $request->email);
+        $credentials = $request->only("email","password");
 
-        if(!$user){
-            return back()->withErrors(["email" => "Your Email is invalid"]);
+        $validator = validator($request->all(), [
+            "email" => "required|email|exists:users,email",
+            "password" => "required|string"
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
 
-        if(!Hash::check($request->password, $user->password)){
-            return back()->withErrors(["password" => "The Password You Entered Is Incorrect"]);
+        if(!Auth::attempt($credentials, true)){
+            return back()->with([
+                "error" => "Your Credentials Are Incorrect",
+                "errors"=> [
+                    "login_failed" => true,
+                ]
+            ]);
         }
 
-        // Login the user
-        if(!Auth::loginUsingId($user->id, true)){
-            return back()->with('error', 'Failed Login!');
-        };
-
-        return redirect()->route('tenant.home')->withSuccess("Tenant Login Success!");
+        return back()->with('success', "Tenant Login Success!");
 
     }
 
-    public function register(RegisterRequest $request){
+    public function register(Request $request){
        //Get Validated Values
-        $validated = $request->validated();
+        $validator = validator($request->all(), [
+            "name" => "required|string",
+            "email" => "required|email|unique:users,email",
+            "password" => "required|string|confirmed"
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator->errors()->first());
+        }
+
+        // Validated Values
+        $validated = $validator->validated();
 
        //Create Tenant account
         try{
+
+            // Redact Password
+            $validated['password'] = bcrypt($validated['password']);
+
             // Create User
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => bcrypt($validated["password"])
-            ]);
+            $user = User::create($validated);
 
            // Login the user
             if(!Auth::loginUsingId($user->id, true)){
-                return back()->with('error', 'Failed Login!');
+                throw new \Exception('Login Failed');
             };
 
-            return redirect()->route('tenant.home')->withSuccess('Tenant Registration Success');
+            return to_route('tenant.home')->with('success', 'Tenant Registration Success');
 
         }catch(\Exception $e){
-            return back()->with("error", $e->getMessage());
+            $errors = [
+                'error' => $e->getMessage(),
+                'errors' => [
+                    'registration_failed' => true
+                ]
+            ];
+            return back()->with($errors);
         }
     }
 
     public function logout(Request $request){
         Auth::logout();
-        return redirect()->route("tenant.home");
+        return to_route("tenant.home");
     }
 }

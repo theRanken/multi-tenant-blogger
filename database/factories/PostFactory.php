@@ -19,7 +19,6 @@ class PostFactory extends Factory
         return [
             'user_id' => \App\Models\User::all()->random()->id,
             'body' => $this->faker->paragraph(10),
-            
         ];
     }
 }
