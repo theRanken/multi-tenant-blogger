@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('views', function (Blueprint $table) {
             $table->id();
+            $table->ipAddress('ip');
+            $table->string('agent');
+            $table->integer('visit_count');
             $table->timestamps();
         });
     }

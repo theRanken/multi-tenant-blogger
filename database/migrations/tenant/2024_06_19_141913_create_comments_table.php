@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Post::class)->nullable()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\User::class)->cascadeOnDelete();
             $table->text('body');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

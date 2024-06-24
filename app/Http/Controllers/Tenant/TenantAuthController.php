@@ -29,12 +29,6 @@ class TenantAuthController extends Controller
             return back()->with('error', 'Failed Login!');
         };
 
-        // $tenant = Auth::user()->tenants()->first();
-
-        // $domain = $tenant->domain;
-
-        // $destination_domain = current_protocol() . $domain . config('tenant.central_domains')[1];
-
         return redirect()->route('tenant.home')->withSuccess("Tenant Login Success!");
 
     }

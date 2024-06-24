@@ -7,6 +7,7 @@ use Stancl\Tenancy\Middleware\ScopeSessions;
 use App\Http\Controllers\Tenant\MainController;
 use App\Http\Controllers\Tenant\PostController;
 use App\Http\Controllers\Tenant\CommentController;
+use App\Http\Controllers\Tenant\TenantAuthController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -29,23 +30,33 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
     ScopeSessions::class,
     \App\Http\Middleware\ExtractSubdomain::class,
-])->name('tenant.')->group(function () {
+])->group(function () {
 
-    // Main Routes
-    Route::controller(MainController::class)->group(function () {
-        Route::get('/', 'index')->name('home');
+    Route::controller(TenantAuthController::class)->group(function () {
+        Route::post('/login', 'login')->name('login');
+        Route::post('/register', 'register')->name('register');
+        Route::get('/logout','logout')->name('logout')->middleware('auth');
+    }); 
 
-        // protected tenant administrator routes
-        Route::middleware(['auth'])->group(function () {
+    Route::name('tenant.')->group(function () {
 
+        // Main Routes
+        Route::controller(MainController::class)->group(function () {
+            Route::get('/', 'index')->name('home');
+
+            // protected tenant administrator routes
+            Route::middleware(['auth'])->group(function () {
+
+            });
         });
+
+        // Post Routes
+        Route::resource('posts', PostController::class);
+
+        // Comment Routes
+        Route::apiResource('posts.comments', CommentController::class);
+
     });
-
-    // Post Routes
-    Route::resource('posts', PostController::class);
-
-    // Comment Routes
-    Route::apiResource('posts.comments', CommentController::class);
 
 
 
